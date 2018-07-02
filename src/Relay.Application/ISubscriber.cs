@@ -7,8 +7,4 @@ namespace Relay.Application
     {
         Task<bool> ReceiveMsg(Message msg);
     }
-
-    public class Message
-    {
-    }
 }
