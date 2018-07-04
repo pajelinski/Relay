@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Relay.Application.Tests
@@ -29,13 +30,15 @@ namespace Relay.Application.Tests
 
         [Test]
         public void Broadcast_GivenNull_ThrowsArgumentNullException() => 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _relay.Broadcast(null));
+            Assert.Throws<ArgumentNullException>(() => _relay.Broadcast(null));
 
         [Test]
-        public async Task Broadcast_GivenMessage_RelaysMessageToSubscribers()
+        public void Broadcast_GivenMessage_RelaysMessageToSubscribers()
         {
             _relay.AddSubscriber(_spySubscriber);
-            await _relay.Broadcast(_message);
+            _relay.Broadcast(_message);
+
+            Thread.Sleep(100);
 
             var receivedMessage = _spySubscriber.ReceivedMessages.Single();
             Assert.That(receivedMessage.Body, Is.EqualTo(_message.Body));
@@ -52,13 +55,15 @@ namespace Relay.Application.Tests
             };
 
             _relay.AddSubscriber(_spySubscriber);
-            messages.ForEach(async m => await _relay.Broadcast(m));
+            messages.ForEach(m => _relay.Broadcast(m));
+
+            Thread.Sleep(100);
 
             Assert.That(_spySubscriber.ReceivedMessages, Is.EquivalentTo(messages));
         }
 
         [Test]
-        public async Task Broadcast_GivenThreeSubscribers_EachOfThemeReceiveTheSamMessage()
+        public void Broadcast_GivenThreeSubscribers_EachOfThemeReceiveTheSamMessage()
         {
             var spySubscribers = new List<SpySubscriber>
             {
@@ -68,7 +73,9 @@ namespace Relay.Application.Tests
             };
 
             spySubscribers.ForEach(s => _relay.AddSubscriber(s));
-            await _relay.Broadcast(_message);
+            _relay.Broadcast(_message);
+
+            Thread.Sleep(100);
 
             var receivedMessages = spySubscribers.Select(s => s.ReceivedMessages.Single());
 
@@ -76,11 +83,13 @@ namespace Relay.Application.Tests
         }
 
         [Test]
-        public async Task Broadcast_WhenSubscriberFailsToProcessMessage_SubscriberRetriesToProcessMessage()
+        public void Broadcast_WhenSubscriberFailsToProcessMessage_SubscriberRetriesToProcessMessage()
         {
             var fakeSubscriber = new FakeSubscriber();
             _relay.AddSubscriber(fakeSubscriber);
-            await _relay.Broadcast(_message);
+            _relay.Broadcast(_message);
+
+            Thread.Sleep(2000);
 
             Assert.That(fakeSubscriber.ReceiveMsgCallsCount, Is.EqualTo(2));
         }

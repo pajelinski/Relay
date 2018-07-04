@@ -32,9 +32,9 @@
         }
 
         [Benchmark]
-        public async Task BroadcastSingleMessage()
+        public void BroadcastSingleMessage()
         {
-            await _relay.Broadcast(_message);
+            _relay.Broadcast(_message);
         }
     }
 }
