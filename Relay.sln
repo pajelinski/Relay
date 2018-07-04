@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relay", "src\Relay\Relay.csproj", "{74C83012-BC97-4DFD-8574-3AA80C19B703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Relay", "src\Relay\Relay.csproj", "{74C83012-BC97-4DFD-8574-3AA80C19B703}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C9C1FE9F-E060-438C-ABB8-0766094F53D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0BBA5CAF-676D-4D93-901C-1E6B11D91211}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relay.Application", "src\Relay.Application\Relay.Application.csproj", "{F8069F8E-3614-4835-A73A-7F375BFB70E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Relay.Application", "src\Relay.Application\Relay.Application.csproj", "{F8069F8E-3614-4835-A73A-7F375BFB70E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relay.Application.Tests", "tests\Relay.Application.Tests\Relay.Application.Tests.csproj", "{04A12467-3C19-4C8C-81BB-1BAFE7EA2CD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Relay.Application.Tests", "tests\Relay.Application.Tests\Relay.Application.Tests.csproj", "{04A12467-3C19-4C8C-81BB-1BAFE7EA2CD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Relay.Benchmark", "tests\Relay.Benchmark\Relay.Benchmark.csproj", "{EAE8868C-CC0E-4FC0-A391-342FF239FA37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{04A12467-3C19-4C8C-81BB-1BAFE7EA2CD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04A12467-3C19-4C8C-81BB-1BAFE7EA2CD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04A12467-3C19-4C8C-81BB-1BAFE7EA2CD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE8868C-CC0E-4FC0-A391-342FF239FA37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE8868C-CC0E-4FC0-A391-342FF239FA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE8868C-CC0E-4FC0-A391-342FF239FA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE8868C-CC0E-4FC0-A391-342FF239FA37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{74C83012-BC97-4DFD-8574-3AA80C19B703} = {C9C1FE9F-E060-438C-ABB8-0766094F53D2}
 		{F8069F8E-3614-4835-A73A-7F375BFB70E3} = {C9C1FE9F-E060-438C-ABB8-0766094F53D2}
 		{04A12467-3C19-4C8C-81BB-1BAFE7EA2CD1} = {0BBA5CAF-676D-4D93-901C-1E6B11D91211}
+		{EAE8868C-CC0E-4FC0-A391-342FF239FA37} = {0BBA5CAF-676D-4D93-901C-1E6B11D91211}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4EB72444-6F6F-4575-9D57-D6D79DF9E6AB}
