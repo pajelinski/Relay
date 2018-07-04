@@ -12,10 +12,12 @@ namespace Relay.Application.Tests
     {
         private Relay _relay;
         private SpySubscriber _spySubscriber;
+        private Message _message;
 
         [SetUp]
         public void Setup()
         {
+            _message = new Message("someMessage");
             _spySubscriber = new SpySubscriber();
             _relay = new Relay();
 
@@ -23,22 +25,20 @@ namespace Relay.Application.Tests
 
         [Test]
         public void AddSubscriber_GivenNull_ThrowsArgumentNullException() => 
-            Assert.Throws<ArgumentNullException>(() => new Relay().AddSubscriber(null));
+            Assert.Throws<ArgumentNullException>(() => _relay.AddSubscriber(null));
 
         [Test]
         public void Broadcast_GivenNull_ThrowsArgumentNullException() => 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await new Relay().Broadcast(null));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _relay.Broadcast(null));
 
         [Test]
         public async Task Broadcast_GivenMessage_RelaysMessageToSubscribers()
         {
-            var message = new Message("someMessage");
-
             _relay.AddSubscriber(_spySubscriber);
-            await _relay.Broadcast(message);
+            await _relay.Broadcast(_message);
 
             var receivedMessage = _spySubscriber.ReceivedMessages.Single();
-            Assert.That(receivedMessage.Body, Is.EqualTo(message.Body));
+            Assert.That(receivedMessage.Body, Is.EqualTo(_message.Body));
         }
 
         [Test]
@@ -60,8 +60,6 @@ namespace Relay.Application.Tests
         [Test]
         public async Task Broadcast_GivenThreeSubscribers_EachOfThemeReceiveTheSamMessage()
         {
-            var message = new Message("someMessage");
-
             var spySubscribers = new List<SpySubscriber>
             {
                 new SpySubscriber(),
@@ -70,11 +68,39 @@ namespace Relay.Application.Tests
             };
 
             spySubscribers.ForEach(s => _relay.AddSubscriber(s));
-            await _relay.Broadcast(message);
+            await _relay.Broadcast(_message);
 
             var receivedMessages = spySubscribers.Select(s => s.ReceivedMessages.Single());
 
-            Assert.That(receivedMessages.All(rm => rm.Id == message.Id));
+            Assert.That(receivedMessages.All(rm => rm.Id == _message.Id));
+        }
+
+        [Test]
+        public async Task Broadcast_WhenSubscriberFailsToProcessMessage_SubscriberRetriesToProcessMessage()
+        {
+            var fakeSubscriber = new FakeSubscriber();
+            _relay.AddSubscriber(fakeSubscriber);
+            await _relay.Broadcast(_message);
+
+            Assert.That(fakeSubscriber.ReceiveMsgCallsCount, Is.EqualTo(2));
+        }
+
+        public class FakeSubscriber : ISubscriber
+        {
+            public int ReceiveMsgCallsCount;
+
+            public Task<bool> ReceiveMsg(Message msg)
+            {
+                if (ReceiveMsgCallsCount <= 0)
+                {
+                    ReceiveMsgCallsCount++;
+                    return Task.FromResult(false);
+                }
+
+                ReceiveMsgCallsCount++;
+
+                return Task.FromResult(true);
+            }
         }
     }
 }

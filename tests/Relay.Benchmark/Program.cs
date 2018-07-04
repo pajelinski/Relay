@@ -1,6 +1,5 @@
 ﻿namespace Relay.Benchmark
 {
-    using System;
     using BenchmarkDotNet.Attributes;
     using BenchmarkDotNet.Running;
     using Application;
@@ -11,7 +10,6 @@
         public static void Main(string[] args)
         {
             var summary = BenchmarkRunner.Run<RelayBenchmark>();
-            Console.ReadKey();
         }
     }
 

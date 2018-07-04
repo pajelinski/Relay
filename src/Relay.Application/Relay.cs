@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Polly;
+using Polly.Retry;
 
 namespace Relay.Application
 {
     public class Relay
     {
         private readonly List<ISubscriber> _subscribers;
+        private readonly RetryPolicy<bool> _retryPolicy;
 
         public Relay()
         {
             _subscribers = new List<ISubscriber>();
+            _retryPolicy = Policy.HandleResult(false).WaitAndRetryForeverAsync(ra => TimeSpan.FromSeconds(ra));
         }
 
         public void AddSubscriber(ISubscriber subscriber)
@@ -26,7 +30,7 @@ namespace Relay.Application
 
             foreach (var subscriber in _subscribers)
             {
-                await subscriber.ReceiveMsg(message);
+                await _retryPolicy.ExecuteAsync(() => subscriber.ReceiveMsg(message));
             }
         }
 
