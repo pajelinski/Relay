@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class Message
+    public struct Message
     {
         public Guid Id { get; set; }
         public string Body { get; }

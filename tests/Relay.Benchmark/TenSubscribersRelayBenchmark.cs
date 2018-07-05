@@ -16,7 +16,7 @@ namespace Relay.Benchmark
         public void Setup()
         {
             _relay = new Relay();
-            var stubSubscribers = Enumerable.Range(0, 9).Select(_ => new StubSubscriber());
+            var stubSubscribers = Enumerable.Range(0, 10).Select(_ => new StubSubscriber());
             foreach (var stubSubscriber in stubSubscribers)
             {
                 _relay.AddSubscriber(stubSubscriber);
