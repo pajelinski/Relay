@@ -38,7 +38,7 @@ namespace Relay.Application.Tests
             _relay.AddSubscriber(_spySubscriber);
             _relay.Broadcast(_message);
 
-            Thread.Sleep(100);
+            Thread.Sleep(200);
 
             var receivedMessage = _spySubscriber.ReceivedMessages.Single();
             Assert.That(receivedMessage.Body, Is.EqualTo(_message.Body));
@@ -47,17 +47,12 @@ namespace Relay.Application.Tests
         [Test]
         public void Broadcast_GivenThreeMessages_SubscribersReceiveMessagesInOrderTheyWereSend()
         {
-            var messages = new List<Message>
-            {
-                new Message("1"),
-                new Message("2"),
-                new Message("3")
-            };
+            var messages = Enumerable.Range(0, 9).Select(x => new Message(x.ToString())).ToList();
 
             _relay.AddSubscriber(_spySubscriber);
             messages.ForEach(m => _relay.Broadcast(m));
 
-            Thread.Sleep(100);
+            Thread.Sleep(200);
 
             Assert.That(_spySubscriber.ReceivedMessages, Is.EquivalentTo(messages));
         }
@@ -75,7 +70,7 @@ namespace Relay.Application.Tests
             spySubscribers.ForEach(s => _relay.AddSubscriber(s));
             _relay.Broadcast(_message);
 
-            Thread.Sleep(100);
+            Thread.Sleep(200);
 
             var receivedMessages = spySubscribers.Select(s => s.ReceivedMessages.Single());
 
