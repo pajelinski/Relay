@@ -1,8 +1,12 @@
-﻿namespace Relay.Benchmark
+﻿using BenchmarkDotNet.Attributes.Jobs;
+using BenchmarkDotNet.Engines;
+
+namespace Relay.Benchmark
 {
     using BenchmarkDotNet.Attributes;
     using Application;
 
+    [CoreJob]
     public class SimpleRelayBenchmark
     {
         private Relay _relay;

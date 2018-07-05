@@ -9,7 +9,7 @@ namespace Relay.Application.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class RelayTests : Relay
+    public class RelayTests
     {
         private Relay _relay;
         private SpySubscriber _spySubscriber;
